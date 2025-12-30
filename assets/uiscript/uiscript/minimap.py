@@ -94,28 +94,50 @@ window = {
 				{
 					"name" : "ServerInfo",
 					"type" : "text",
-					
 					"text_horizontal_align" : "center",
-
 					"outline" : 1,
-
 					"x" : 70,
 					"y" : 140,
-
+					"text" : "",
+				},
+				## DateTime
+				{
+					"name" : "DateTime",
+					"type" : "text",
+					"text_horizontal_align" : "center",
+					"outline" : 1,
+					"x" : 70,
+					"y" : 156,  # Changed from 152
+					"text" : "",
+				},
+				## MapName
+				{
+					"name" : "MapName",
+					"type" : "text",
+					"text_horizontal_align" : "center",
+					"outline" : 1,
+					"x" : 70,
+					"y" : 172,  # Changed from 164
 					"text" : "",
 				},
 				## PositionInfo
 				{
 					"name" : "PositionInfo",
 					"type" : "text",
-					
 					"text_horizontal_align" : "center",
-
 					"outline" : 1,
-
 					"x" : 70,
-					"y" : 160,
-
+					"y" : 188,  # Changed from 176
+					"text" : "",
+				},
+				## FPSInfo
+				{
+					"name" : "FPSInfo",
+					"type" : "text",
+					"text_horizontal_align" : "center",
+					"outline" : 1,
+					"x" : 70,
+					"y" : 204,  # Changed from 188
 					"text" : "",
 				},
 				## ObserverCount
@@ -124,11 +146,10 @@ window = {
 					"type" : "text",
 					
 					"text_horizontal_align" : "center",
-
 					"outline" : 1,
 
 					"x" : 70,
-					"y" : 180,
+					"y" : 200,
 
 					"text" : "",
 				},

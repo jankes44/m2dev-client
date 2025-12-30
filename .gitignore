@@ -9,6 +9,8 @@ ErrorLog.txt
 !/config.exe
 !/Metin2.exe
 
+assets/root/serverinfo.py
+
 # =======================================================
 # FULLY CASE-INSENSITIVE BACKUP EXCLUSIONS
 # Matches all files and folders ending in:
