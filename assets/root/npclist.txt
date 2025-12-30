@@ -952,7 +952,8 @@
 9009	sailor	
 9010	goods_02	
 9011	bank_02	
-9012	oldster	
+9012	oldster
+9013	goods_02
 10001	warp	
 10002	warp	
 10003	warp	

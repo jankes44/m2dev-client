@@ -1182,8 +1182,12 @@ class ItemToolTip(ToolTip):
 				self.AppendTimerBasedOnWearLastTime(metinSlot)
 				#dbg.TraceError("1) REAL_TIME flag On ")
 
+		# Add Item ID at the bottom if in debug mode
+		import debugInfo
+		if debugInfo.IsDebugMode():
+			self.AppendSpace(5)
+			self.AppendTextLine("Item ID: %d" % itemVnum, self.NORMAL_COLOR)
 
-				
 		self.ShowToolTip()
 
 	def __DragonSoulInfoString (self, dwVnum):

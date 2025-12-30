@@ -9,6 +9,7 @@ import app
 import colorInfo
 import constInfo
 import background
+import time
 
 class MapTextToolTip(ui.Window):
 	def __init__(self):
@@ -251,6 +252,10 @@ class MiniMap(ui.ScriptWindow):
 	def __Initialize(self):
 		self.positionInfo = 0
 		self.observerCount = 0
+		
+		self.mapNameText = 0
+		self.dateTime = 0
+		self.fpsInfo = 0
 
 		self.OpenWindow = 0
 		self.CloseWindow = 0
@@ -269,7 +274,7 @@ class MiniMap(ui.ScriptWindow):
 		self.serverInfo = None
 
 	def SetMapName(self, mapName):
-		self.mapName=mapName
+		self.mapName = mapName
 		self.AtlasWindow.SetMapName(mapName)
 
 		if self.CANNOT_SEE_INFO_MAP_DICT.has_key(mapName):
@@ -330,6 +335,9 @@ class MiniMap(ui.ScriptWindow):
 			self.positionInfo = self.GetChild("PositionInfo")
 			self.observerCount = self.GetChild("ObserverCount")
 			self.serverInfo = self.GetChild("ServerInfo")
+			self.dateTime = self.GetChild("DateTime")
+			self.mapNameText = self.GetChild("MapName")
+			self.fpsInfo = self.GetChild("FPSInfo")
 		except:
 			import exception
 			exception.Abort("MiniMap.LoadWindow.Bind")
@@ -385,7 +393,100 @@ class MiniMap(ui.ScriptWindow):
 		(x, y, z) = player.GetMainCharacterPosition()
 		miniMap.Update(x, y)
 
-		self.positionInfo.SetText("(%.0f, %.0f)" % (x/100, y/100))
+		self.positionInfo.SetText("[%.0f, %.0f]" % (x/100, y/100))
+
+		# Date Time
+		currentTime = time.localtime()
+		self.dateTime.SetText("%04d.%02d.%02d %02d:%02d:%02d" % (
+			currentTime.tm_year,
+			currentTime.tm_mon, 
+			currentTime.tm_mday,
+			currentTime.tm_hour, 
+			currentTime.tm_min, 
+			currentTime.tm_sec
+		))
+		
+		# Map Name
+		mapName = background.GetCurrentMapName()
+		if mapName:
+			mapLower = mapName.lower()
+			
+			# Determine map zone and empire from map name
+			# Shinsoo Empire (A maps)
+			if "a1" in mapLower or "yongan" in mapLower:
+				shortName, empireName = "M1", "Shinsoo"
+			elif "a3" in mapLower or "yayang" in mapLower:
+				shortName, empireName = "M2", "Shinsoo"
+			elif "a2" in mapLower or "seungryong" in mapLower:
+				shortName, empireName = "M3", "Shinsoo"
+			# Chunjo Empire (B maps)
+			elif "b1" in mapLower or "joan" in mapLower:
+				shortName, empireName = "M1", "Chunjo"
+			elif "b3" in mapLower or "bokjung" in mapLower:
+				shortName, empireName = "M2", "Chunjo"
+			elif "b2" in mapLower or "imji" in mapLower:
+				shortName, empireName = "M3", "Chunjo"
+			# Jinno Empire (C maps)
+			elif "c1" in mapLower or "pyungmoo" in mapLower:
+				shortName, empireName = "M1", "Jinno"
+			elif "c3" in mapLower or "bakra" in mapLower:
+				shortName, empireName = "M2", "Jinno"
+			elif "c2" in mapLower or "bangsan" in mapLower:
+				shortName, empireName = "M3", "Jinno"
+			# Dungeons and Special Areas
+			elif "monkeydungeon" in mapLower:
+				shortName, empireName = "Monkey Dungeon", ""
+			elif "spiderdungeon" in mapLower or "spider" in mapLower:
+				shortName, empireName = "Spider Dungeon", ""
+			elif "deviltower" in mapLower or "deviltower1" in mapLower:
+				shortName, empireName = "Devil Tower", ""
+			elif "desert" in mapLower:
+				shortName, empireName = "Yongbi Desert", ""
+			elif "flame" in mapLower:
+				shortName, empireName = "Flame Dungeon", ""
+			elif "snow" in mapLower:
+				shortName, empireName = "Mount Sohan", ""
+			elif "guild_01" in mapLower:
+				shortName, empireName = "Guild Land", "Shinsoo"
+			elif "guild_02" in mapLower:
+				shortName, empireName = "Guild Land", "Chunjo"
+			elif "guild_03" in mapLower:
+				shortName, empireName = "Guild Land", "Jinno"
+			elif "trent02" in mapLower:
+				shortName, empireName = "Red Forest", ""
+			elif "trent" in mapLower:
+				shortName, empireName = "Lungsam", ""
+			elif "milgyo" in mapLower or "temple" in mapLower:
+				shortName, empireName = "Hwang Temple", ""
+			elif "capedragn" in mapLower or "cape" in mapLower:
+				shortName, empireName = "Cape Dragon", ""
+			elif "thunder" in mapLower:
+				shortName, empireName = "Thunder Mtn", ""
+			elif "dawn" in mapLower:
+				shortName, empireName = "Gautama Cliff", ""
+			elif "bay" in mapLower:
+				shortName, empireName = "Nephrite Bay", ""
+			elif "nusluck" in mapLower:
+				shortName, empireName = "Land of Giants", ""
+			elif "snakefield" in mapLower or "_wl_" in mapLower:
+				shortName, empireName = "Snakefield", ""
+			else:
+				# Fallback for unknown maps
+				shortName = mapName.replace("metin2_map_", "").replace("_", " ").title()[:15]
+				empireID = net.GetEmpireID()
+				empireNames = {1: "Shinsoo", 2: "Chunjo", 3: "Jinno"}
+				empireName = empireNames.get(empireID, "")
+			
+			if empireName:
+				self.mapNameText.SetText("%s - %s" % (shortName, empireName))
+			else:
+				self.mapNameText.SetText(shortName)
+		
+		# FPS
+		fps = app.GetUpdateFPS()
+		# multiply by 10
+		fps = fps * 10
+		self.fpsInfo.SetText("%d FPS" % fps)
 
 		if self.tooltipInfo:
 			if True == self.MiniMapWindow.IsIn():
