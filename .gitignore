@@ -8,6 +8,7 @@ ErrorLog.txt
 /*.exe
 !/config.exe
 !/Metin2.exe
+!/Metin2.pdb
 
 assets/root/serverinfo.py
 
