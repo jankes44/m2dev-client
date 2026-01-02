@@ -6,9 +6,11 @@ ErrorLog.txt
 *.pck
 /*.cfg
 /*.exe
+**/*.exe
+*.exe
 !/config.exe
 !/Metin2.exe
-!/Metin2.pdb
+*.pdb
 
 assets/root/serverinfo.py
 
