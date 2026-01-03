@@ -393,18 +393,20 @@ class MiniMap(ui.ScriptWindow):
 		(x, y, z) = player.GetMainCharacterPosition()
 		miniMap.Update(x, y)
 
-		self.positionInfo.SetText("[%.0f, %.0f]" % (x/100, y/100))
+		if self.positionInfo:
+			self.positionInfo.SetText("[%.0f, %.0f]" % (x/100, y/100))
 
 		# Date Time
-		currentTime = time.localtime()
-		self.dateTime.SetText("%04d.%02d.%02d %02d:%02d:%02d" % (
-			currentTime.tm_year,
-			currentTime.tm_mon, 
-			currentTime.tm_mday,
-			currentTime.tm_hour, 
-			currentTime.tm_min, 
-			currentTime.tm_sec
-		))
+		if self.dateTime:
+			currentTime = time.localtime()
+			self.dateTime.SetText("%04d.%02d.%02d %02d:%02d:%02d" % (
+				currentTime.tm_year,
+				currentTime.tm_mon, 
+				currentTime.tm_mday,
+				currentTime.tm_hour, 
+				currentTime.tm_min, 
+				currentTime.tm_sec
+			))
 		
 		# Map Name
 		mapName = background.GetCurrentMapName()
