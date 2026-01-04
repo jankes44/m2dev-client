@@ -1374,9 +1374,10 @@ class GameWindow(ui.ScriptWindow):
 				questionText = localeInfo.HOW_MANY_ITEM_DO_YOU_DROP(dropItemName, attachedItemCount)
 
 				## Dialog
-				itemDropQuestionDialog = uiCommon.QuestionDialog()
+				itemDropQuestionDialog = uiCommon.QuestionDialogWithDelete()
 				itemDropQuestionDialog.SetText(questionText)
 				itemDropQuestionDialog.SetAcceptEvent(lambda arg=True: self.RequestDropItem(arg))
+				itemDropQuestionDialog.SetDeleteEvent(lambda: self.RequestDeleteItem())
 				itemDropQuestionDialog.SetCancelEvent(lambda arg=False: self.RequestDropItem(arg))
 				itemDropQuestionDialog.Open()
 				itemDropQuestionDialog.dropType = attachedType
@@ -1395,9 +1396,10 @@ class GameWindow(ui.ScriptWindow):
 				questionText = localeInfo.HOW_MANY_ITEM_DO_YOU_DROP(dropItemName, attachedItemCount)
 
 				## Dialog
-				itemDropQuestionDialog = uiCommon.QuestionDialog()
+				itemDropQuestionDialog = uiCommon.QuestionDialogWithDelete()
 				itemDropQuestionDialog.SetText(questionText)
 				itemDropQuestionDialog.SetAcceptEvent(lambda arg=True: self.RequestDropItem(arg))
+				itemDropQuestionDialog.SetDeleteEvent(lambda: self.RequestDeleteItem())
 				itemDropQuestionDialog.SetCancelEvent(lambda arg=False: self.RequestDropItem(arg))
 				itemDropQuestionDialog.Open()
 				itemDropQuestionDialog.dropType = attachedType
@@ -1406,6 +1408,24 @@ class GameWindow(ui.ScriptWindow):
 				self.itemDropQuestionDialog = itemDropQuestionDialog
 
 				constInfo.SET_ITEM_QUESTION_DIALOG_STATUS(1)
+
+	def RequestDeleteItem(self):
+		if not self.itemDropQuestionDialog:
+			return
+
+		dropType = self.itemDropQuestionDialog.dropType
+		dropNumber = self.itemDropQuestionDialog.dropNumber
+
+		if player.SLOT_TYPE_INVENTORY == dropType:
+			# Delete item using destroy packet (bypasses ANTI_DROP flag)
+			net.SendItemDestroyPacket(dropNumber)
+		elif player.SLOT_TYPE_DRAGON_SOUL_INVENTORY == dropType:
+			# Delete dragon soul item using destroy packet
+			net.SendItemDestroyPacket(player.DRAGON_SOUL_INVENTORY, dropNumber)
+
+		self.itemDropQuestionDialog.Close()
+		self.itemDropQuestionDialog = None
+		constInfo.SET_ITEM_QUESTION_DIALOG_STATUS(0)
 
 	def RequestDropItem(self, answer):
 		if not self.itemDropQuestionDialog:
