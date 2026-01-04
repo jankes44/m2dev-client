@@ -297,6 +297,98 @@ class QuestionDialog2(QuestionDialog):
 	def SetText2(self, text):
 		self.textLine2.SetText(text)
 
+class QuestionDialogWithDelete(ui.ScriptWindow):
+
+	def __init__(self):
+		ui.ScriptWindow.__init__(self)
+		self.__CreateDialog()
+		self.deleteEvent = None
+		self.deleteConfirmDialog = None
+
+	def __del__(self):
+		ui.ScriptWindow.__del__(self)
+
+	def __CreateDialog(self):
+		pyScrLoader = ui.PythonScriptLoader()
+		pyScrLoader.LoadScriptFile(self, "uiscript/questiondialogwithdelete.py")
+
+		self.board = self.GetChild("board")
+		self.textLine = self.GetChild("message")
+		self.acceptButton = self.GetChild("accept")
+		self.deleteButton = self.GetChild("delete")
+		self.cancelButton = self.GetChild("cancel")
+
+	def Open(self):
+		self.SetCenterPosition()
+		self.SetTop()
+		self.Show()
+
+	def Close(self):
+		self.Hide()
+		if self.deleteConfirmDialog:
+			self.deleteConfirmDialog.Close()
+			self.deleteConfirmDialog = None
+
+	def SetWidth(self, width):
+		height = self.GetHeight()
+		self.SetSize(width, height)
+		self.board.SetSize(width, height)
+		self.SetCenterPosition()
+		self.UpdateRect()
+
+	def SetAcceptEvent(self, event):
+		self.acceptButton.SetEvent(event)
+
+	def SetDeleteEvent(self, event):
+		self.deleteEvent = event
+		self.deleteButton.SetEvent(self.__OnDeleteButtonClick)
+
+	def __OnDeleteButtonClick(self):
+		self.deleteConfirmDialog = QuestionDialog()
+		self.deleteConfirmDialog.SetText("Are you sure you want to DELETE this item?")
+		self.deleteConfirmDialog.SetAcceptEvent(self.__ConfirmDelete)
+		self.deleteConfirmDialog.SetCancelEvent(self.__CancelDelete)
+		self.deleteConfirmDialog.Open()
+		# Hide the parent dialog while confirmation is shown
+		self.Hide()
+
+	def __ConfirmDelete(self):
+		if self.deleteConfirmDialog:
+			self.deleteConfirmDialog.Close()
+			self.deleteConfirmDialog = None
+		if self.deleteEvent:
+			self.deleteEvent()
+		# Parent dialog cleanup happens in the delete event
+
+	def __CancelDelete(self):
+		if self.deleteConfirmDialog:
+			self.deleteConfirmDialog.Close()
+			self.deleteConfirmDialog = None
+		# Show the parent dialog again
+		self.Show()
+
+	def SetCancelEvent(self, event):
+		self.cancelButton.SetEvent(event)
+
+	def SetText(self, text):
+		self.textLine.SetText(text)
+
+	def SetAcceptText(self, text):
+		self.acceptButton.SetText(text)
+
+	def SetDeleteText(self, text):
+		self.deleteButton.SetText(text)
+
+	def SetCancelText(self, text):
+		self.cancelButton.SetText(text)
+
+	def OnPressEscapeKey(self):
+		if self.deleteConfirmDialog:
+			self.deleteConfirmDialog.Close()
+			self.deleteConfirmDialog = None
+		self.Close()
+		return True
+
 class QuestionDialogWithTimeLimit(QuestionDialog2):
 
 	def __init__(self):
