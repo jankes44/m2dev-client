@@ -13,6 +13,7 @@ import app
 import background
 import nonplayer
 import chr
+import debugInfo
 
 import ui
 import mouseModule
@@ -760,9 +761,13 @@ class ItemToolTip(ToolTip):
 		else:
 			if self.__IsAttr(attrSlot):
 				self.__SetSpecialItemTitle()
+				if debugInfo.IsDebugMode():
+					self.AppendTextLine("Vnum: %d" % itemVnum, self.NORMAL_COLOR)
 				return
 
 			self.__SetNormalItemTitle()
+			if debugInfo.IsDebugMode():
+				self.AppendTextLine("Vnum: %d" % itemVnum, self.NORMAL_COLOR)
 
 	def __IsAttr(self, attrSlot):
 		if not attrSlot:
