@@ -3407,6 +3407,8 @@
 27119	ETC	icon/item/27119.tga	d:/ymir work/item/etc/medicine_B.GR2
 27120	ETC	icon/item/27120.tga	d:/ymir work/item/etc/medicine_B.GR2
 27121	ETC	icon/item/27121.tga	d:/ymir work/item/etc/medicine_B.GR2
+27200	ETC	icon/item/27003.tga	d:/ymir work/item/etc/medicine_R.GR2
+27201	ETC	icon/item/27006.tga	d:/ymir work/item/etc/medicine_B.GR2
 27400	ETC	icon/item/27400.tga	d:/ymir work/item/etc/fishing_rod.gr2
 27410	ETC	icon/item/27400.tga	d:/ymir work/item/etc/fishing_rod.gr2
 27420	ETC	icon/item/27400.tga	d:/ymir work/item/etc/fishing_rod.gr2
@@ -4433,7 +4435,7 @@
 71048	ETC	icon/item/22000.tga
 71051	ETC	icon/item/71051.tga
 71052	ETC	icon/item/71052.tga
-71053	ETC	icon/item/70050.tga
+71053	ETC	icon/item/50187.tga
 71080	ETC	icon/item/70201.tga
 71075	ETC	icon/item/70202.tga
 71076	ETC	icon/item/70203.tga
