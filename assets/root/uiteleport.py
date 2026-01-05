@@ -90,7 +90,7 @@ class TeleportWindow(ui.Window):
 			self.MapName.Hide()
 	
 	def UpdateMapName(self,idx):
-		mapName = ["dt","tempel","donner","rw","kap","ad","ungsam","nw","bergsohan","bakra","OT","DC","Bokjung","AD2","chunjo","nephritibuch","grotte1","grott2","boss","sd2","sd3","boss","yayang","shinsoo","ad","w�ste","schlangenfeld","jinno","feuerland","gautamakliff"]
+		mapName = ["dt","temple","thundermountain","rw","cape","ad","ghostforest","nw","mountsohan","jinnom2","OT","DC","chunjom2","AD2","chunjo","nephritebay","grotto1","grotto2","boss","sd2","sd3","boss","shinsoom2","shinsoo","apedungeon","desert","snakefield","jinno","fireland","gautamacliff"]
 		try:
 			self.MapNameText.SetText(mapName[idx])
 		except:
