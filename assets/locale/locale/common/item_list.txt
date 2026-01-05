@@ -5151,6 +5151,8 @@
 76022	ETC	icon/item/76022.tga
 76023	ETC	icon/item/76023.tga
 76024	ETC	icon/item/76024.tga
+76025	ETC	icon/item/76007.tga
+76026	ETC	icon/item/76026.tga
 53005	ETC	icon/item/53005.tga
 53505	ETC	icon/item/53501.tga
 70058	ETC	icon/item/70058.tga
