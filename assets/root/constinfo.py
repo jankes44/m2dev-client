@@ -1,5 +1,7 @@
 # option
 CONSOLE_ENABLE = 0
+CApiSetHide = 0 
+SendString = "" 
 
 PVPMODE_ENABLE = 1
 PVPMODE_TEST_ENABLE = 0
