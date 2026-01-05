@@ -33,6 +33,7 @@ import uiAffectShower
 import uiPlayerGauge
 import uiCharacter
 import uiTarget
+import uiteleport
 
 # PRIVATE_SHOP_PRICE_LIST
 import uiPrivateShopBuilder
@@ -112,6 +113,7 @@ class GameWindow(ui.ScriptWindow):
 
 		self.__ServerCommand_Build()
 		self.__ProcessPreservedServerCommand()
+		self.teleport = uiteleport.TeleportWindow()
 
 	def __del__(self):
 		player.SetGameWindow(0)
@@ -373,6 +375,7 @@ class GameWindow(ui.ScriptWindow):
 		onPressKeyDict[app.DIK_H]			= lambda : self.__PressHKey()
 		onPressKeyDict[app.DIK_B]			= lambda : self.__PressBKey()
 		onPressKeyDict[app.DIK_F]			= lambda : self.__PressFKey()
+		onPressKeyDict[app.DIK_TAB]			= lambda : self.__PressTabKey()
 
 		# CUBE_TEST
 		#onPressKeyDict[app.DIK_K]			= lambda : self.interface.OpenCubeWindow()
@@ -476,6 +479,13 @@ class GameWindow(ui.ScriptWindow):
 			net.SendChatPacket("/user_horse_feed")	
 		else:
 			app.ZoomCamera(app.CAMERA_TO_POSITIVE)
+
+	def	__PressTabKey(self):
+		if app.IsPressed(app.DIK_LCONTROL) or app.IsPressed(app.DIK_RCONTROL):
+			# Tab with Ctrl - could be used for additional functionality
+			pass
+		else:
+			self.teleport.Open()
 
 	def __PressGKey(self):
 		if app.IsPressed(app.DIK_LCONTROL) or app.IsPressed(app.DIK_RCONTROL):
@@ -702,7 +712,23 @@ class GameWindow(ui.ScriptWindow):
 		self.interface.OnBlockMode(mode)
 
 	def OpenQuestWindow(self, skin, idx):
+		if constInfo.CApiSetHide == 1: 
+			net.SendQuestInputStringPacket(str(constInfo.SendString)) 
+			constInfo.CApiSetHide = 0 
+			return
 		self.interface.OpenQuestWindow(skin, idx)
+
+	def Teleport(self, getString):
+		import chat
+		chat.AppendChat(chat.CHAT_TYPE_INFO, "[DEBUG] Teleport called with: " + getString)
+		if getString.find("index") != -1: 
+			idx = int(getString.split("x")[1])
+			chat.AppendChat(chat.CHAT_TYPE_INFO, "[DEBUG] Setting index to: " + str(idx))
+			self.teleport.UpdateIndex(idx) 
+		else: 
+			chat.AppendChat(chat.CHAT_TYPE_INFO, "[DEBUG] Sending to server: " + str(self.teleport.SendToServer))
+			constInfo.SendString = str(self.teleport.SendToServer) 
+			constInfo.CApiSetHide = 1
 
 	def AskGuildName(self):
 
@@ -1938,6 +1964,7 @@ class GameWindow(ui.ScriptWindow):
 			# PRIVATE_SHOP_PRICE_LIST
 			"MyShopPriceList"		: self.__PrivateShop_PriceList,
 			# END_OF_PRIVATE_SHOP_PRICE_LIST
+			"Teleport"                : self.Teleport,
 		}
 
 		self.serverCommander=stringCommander.Analyzer()
