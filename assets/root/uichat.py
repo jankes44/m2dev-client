@@ -9,12 +9,26 @@ import localeInfo
 import colorInfo
 import constInfo
 import systemSetting
+import debugInfo
 
 ENABLE_CHAT_COMMAND = True
 ENABLE_LAST_SENTENCE_STACK = True
 ENABLE_INSULT_CHECK = True
 
 chatInputSetList = []
+
+# Store original AppendChat function
+_OriginalAppendChat = chat.AppendChat
+
+# Override AppendChat to filter debug messages
+def FilteredAppendChat(chatType, message):
+	# Filter out [DEBUG] messages unless in debug mode
+	if message.startswith("[DEBUG]") and not debugInfo.IsDebugMode():
+		return
+	_OriginalAppendChat(chatType, message)
+
+# Replace the chat.AppendChat with our filtered version
+chat.AppendChat = FilteredAppendChat
 def InsertChatInputSetWindow(wnd):
 	global chatInputSetList
 	chatInputSetList.append(wnd)
@@ -603,7 +617,7 @@ class ChatWindow(ui.Window):
 		self.scrollBar = scrollBar
 
 		self.Refresh()
-		self.chatInputSet.RefreshPosition() # RTL ½Ã À§Ä¡¸¦ Á¦´ë·Î ÀâÀ¸·Á¸é À§Ä¡ °»½ÅÀÌ ÇÊ¿äÇÏ´Ù
+		self.chatInputSet.RefreshPosition() # RTL ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´ï¿½
 	
 	def __del__(self):
 		ui.Window.__del__(self)
