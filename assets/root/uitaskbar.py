@@ -239,6 +239,7 @@ class TaskBar(ui.ScriptWindow):
 	BUTTON_SYSTEM = 3
 	BUTTON_CHAT = 4
 	BUTTON_EXPAND = 4
+	BUTTON_IDLE_HUNTING = 5
 	IS_EXPANDED = False
 
 	MOUSE_BUTTON_LEFT = 0
@@ -449,6 +450,7 @@ class TaskBar(ui.ScriptWindow):
 		toggleButtonDict[TaskBar.BUTTON_INVENTORY]=self.GetChild("InventoryButton")
 		toggleButtonDict[TaskBar.BUTTON_MESSENGER]=self.GetChild("MessengerButton")
 		toggleButtonDict[TaskBar.BUTTON_SYSTEM]=self.GetChild("SystemButton")
+		toggleButtonDict[TaskBar.BUTTON_IDLE_HUNTING]=self.GetChild("IdleHuntingButton")
 		
 		# Either ChatButton or ExpandButton must exist.
 		try:

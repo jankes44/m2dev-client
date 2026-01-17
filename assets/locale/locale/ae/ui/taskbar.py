@@ -107,7 +107,7 @@ window = {
 					)
 				},
 				{
-					## ÅøÆÁÀ» ¶ç¿ì±â À§ÇÑ À©µµ¿ì
+					## ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					"name" : "HPGauge_Board",
 					"type" : "window",
 					"style" : ("ltr", ),
@@ -153,7 +153,7 @@ window = {
 					),
 				},
 				{
-					## ÅøÆÁÀ» ¶ç¿ì±â À§ÇÑ À©µµ¿ì
+					## ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					"name" : "SPGauge_Board",
 					"type" : "window",
 					"style" : ("ltr", ),
@@ -199,7 +199,7 @@ window = {
 					),
 				},
 				{
-					## ÅøÆÁÀ» ¶ç¿ì±â À§ÇÑ À©µµ¿ì
+					## ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					"name" : "STGauge_Board",
 					"type" : "window",
 					"style" : ("ltr", ),
@@ -313,6 +313,19 @@ window = {
 		},
 
 		## Button
+        {
+			"name" : "IdleHuntingButton",
+			"type" : "button",
+
+			"x" : SCREEN_WIDTH - 178,
+			"y" : 3 + Y_ADD_POSITION,
+
+			"tooltip_text" : "Idle Hunting",
+
+			"default_image" : ROOT + "TaskBar/Character_Button_01.sub",
+			"over_image" : ROOT + "TaskBar/Character_Button_02.sub",
+			"down_image" : ROOT + "TaskBar/Character_Button_03.sub",
+		},
 		{
 			"name" : "CharacterButton",
 			"type" : "button",
@@ -380,8 +393,8 @@ window = {
 			"children" :
 			(
 				{
-					# ExpandButtonÀº ±âÁ¸¿¡ ChatButtonÀÌ¾úÀ¸³ª, ChatButtonÀÇ È¿¿ë¼ºÀÌ Àû´Ù ÆÇ´ÜÇÏ¿©
-					# ExpandButtonÀ¸·Î ¹Ù²ï °ÍÀÌ´Ù.
+					# ExpandButtonï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ChatButtonï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ï¿½, ChatButtonï¿½ï¿½ È¿ï¿½ë¼ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ï¿½Ï¿ï¿½
+					# ExpandButtonï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 					"name" : "ExpandButton",
 					"type" : "button",
 

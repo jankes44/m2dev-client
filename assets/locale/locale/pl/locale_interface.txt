@@ -296,6 +296,7 @@ TASKBAR_CHAT	Okno Chatu [Enter]
 TASKBAR_DISABLE	Dezaktywowano
 TASKBAR_DRAGON_SOUL	Alchemia Smoczych Kamieni
 TASKBAR_EXPAND	Powiększ okno
+TASKBAR_IDLE_HUNTING	Łowy Offline [K]
 TASKBAR_INVENTORY	Ekwipunek [I]
 TASKBAR_MESSENGER	Przyjaciele [Alt+M]
 TASKBAR_NEXT_QUICKSLOT	Następne Szybkie Pole Dostępu [Shift+Numer, Alt]
