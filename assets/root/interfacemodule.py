@@ -36,6 +36,7 @@ import uiEquipmentDialog
 import uiGameButton
 import uiTip
 import uiCube
+import uiidlehunting
 import miniMap
 # ACCESSORY_REFINE_ADD_METIN_STONE
 import uiselectitem
@@ -74,6 +75,7 @@ class Interface(object):
 		self.wndMiniMap = None
 		self.wndGuild = None
 		self.wndGuildBuilding = None
+		self.wndIdleHunting = None
 
 		self.listGMName = {}
 		self.wndQuestWindow = {}
@@ -129,6 +131,7 @@ class Interface(object):
 		self.wndTaskBar.SetToggleButtonEvent(uiTaskBar.TaskBar.BUTTON_INVENTORY, ui.__mem_func__(self.ToggleInventoryWindow))
 		self.wndTaskBar.SetToggleButtonEvent(uiTaskBar.TaskBar.BUTTON_MESSENGER, ui.__mem_func__(self.ToggleMessenger))
 		self.wndTaskBar.SetToggleButtonEvent(uiTaskBar.TaskBar.BUTTON_SYSTEM, ui.__mem_func__(self.ToggleSystemDialog))
+		self.wndTaskBar.SetToggleButtonEvent(uiTaskBar.TaskBar.BUTTON_IDLE_HUNTING, ui.__mem_func__(self.ToggleIdleHuntingWindow))
 		if uiTaskBar.TaskBar.IS_EXPANDED:
 			self.wndTaskBar.SetToggleButtonEvent(uiTaskBar.TaskBar.BUTTON_EXPAND, ui.__mem_func__(self.ToggleExpandedButton))
 			self.wndExpandedTaskBar = uiTaskBar.ExpandedTaskBar()
@@ -169,6 +172,8 @@ class Interface(object):
 		wndCharacter = uiCharacter.CharacterWindow()
 		wndInventory = uiInventory.InventoryWindow()
 		wndInventory.BindInterfaceClass(self)
+		wndIdleHunting = uiidlehunting.IdleHuntingWindow()
+		self.wndIdleHunting = wndIdleHunting
 		if app.ENABLE_DRAGON_SOUL_SYSTEM:
 			wndDragonSoul = uiDragonSoul.DragonSoulWindow()	
 			wndDragonSoulRefine = uiDragonSoul.DragonSoulRefineWindow()
@@ -373,6 +378,9 @@ class Interface(object):
 		if self.wndEnergyBar:
 			self.wndEnergyBar.Destroy()
 
+		if self.wndIdleHunting:
+			self.wndIdleHunting.Destroy()
+
 		if self.wndCharacter:
 			self.wndCharacter.Destroy()
 
@@ -480,6 +488,7 @@ class Interface(object):
 		if self.wndExpandedTaskBar:
 			del self.wndExpandedTaskBar
 		del self.wndEnergyBar
+		del self.wndIdleHunting
 		del self.wndCharacter
 		del self.wndInventory
 		if self.wndDragonSoul:
@@ -1070,6 +1079,18 @@ class Interface(object):
 			self.wndChatLog.Hide()
 		else:
 			self.wndChatLog.Show()
+    
+	def ToggleIdleHuntingWindow(self):
+		if False == player.IsObserverMode():
+			if False == self.wndIdleHunting.IsShow():
+				self.wndIdleHunting.Show()
+				self.wndIdleHunting.SetTop()
+			else:
+				self.wndIdleHunting.Close()
+
+	def OnUpdateIdleHuntingState(self, state, mob_vnum, time_left, hunt_duration, max_daily_seconds, total_time_today):
+		if self.wndIdleHunting:
+			self.wndIdleHunting.OnUpdateState(state, mob_vnum, time_left, hunt_duration, max_daily_seconds, total_time_today)
 
 	def CheckGameButton(self):
 		if self.wndGameButton:

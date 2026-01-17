@@ -34,6 +34,7 @@ import uiPlayerGauge
 import uiCharacter
 import uiTarget
 import uiteleport
+import uiidlehunting
 
 # PRIVATE_SHOP_PRICE_LIST
 import uiPrivateShopBuilder
@@ -166,28 +167,23 @@ class GameWindow(ui.ScriptWindow):
 			self.testPKMode.SetOutline()
 			self.testPKMode.Show()
 
-			self.testAlignment = ui.TextLine()
-			self.testAlignment.SetFontName(localeInfo.UI_DEF_FONT)
-			self.testAlignment.SetPosition(0, 35)
-			self.testAlignment.SetWindowHorizontalAlignCenter()
-			self.testAlignment.SetHorizontalAlignCenter()
-			self.testAlignment.SetFeather()
-			self.testAlignment.SetOutline()
-			self.testAlignment.Show()
-
-		self.__BuildKeyDict()
-		self.__BuildDebugInfo()
-
-		# PRIVATE_SHOP_PRICE_LIST
-		uiPrivateShopBuilder.Clear()
-		# END_OF_PRIVATE_SHOP_PRICE_LIST
+		self.testAlignment = ui.TextLine()
+		self.testAlignment.SetFontName(localeInfo.UI_DEF_FONT)
+		self.testAlignment.SetPosition(0, 35)
+		self.testAlignment.SetWindowHorizontalAlignCenter()
+		self.testAlignment.SetHorizontalAlignCenter()
+		self.testAlignment.SetFeather()
+		self.testAlignment.SetOutline()
+		self.testAlignment.Show()
 
 		# UNKNOWN_UPDATE
 		exchange.InitTrading()
 		# END_OF_UNKNOWN_UPDATE
 
-		if debugInfo.IsDebugMode():
-			self.ToggleDebugInfo()
+		self.__BuildKeyDict()
+		self.__BuildDebugInfo()
+
+		self.ToggleDebugInfo()
 
 		## Sound
 		snd.SetMusicVolume(systemSetting.GetMusicVolume())
@@ -374,6 +370,7 @@ class GameWindow(ui.ScriptWindow):
 		onPressKeyDict[app.DIK_J]			= lambda : self.__PressJKey()
 		onPressKeyDict[app.DIK_H]			= lambda : self.__PressHKey()
 		onPressKeyDict[app.DIK_B]			= lambda : self.__PressBKey()
+		onPressKeyDict[app.DIK_K]			= lambda : self.interface.ToggleIdleHuntingWindow()
 		onPressKeyDict[app.DIK_F]			= lambda : self.__PressFKey()
 		onPressKeyDict[app.DIK_TAB]			= lambda : self.__PressTabKey()
 
@@ -1832,8 +1829,12 @@ class GameWindow(ui.ScriptWindow):
 		self.interface.bigBoard.SetTip(message)
 
 	def BINARY_SetTipMessage(self, message):
-		self.interface.tipBoard.SetTip(message)		
-
+		self.interface.tipBoard.SetTip(message)
+	
+	def BINARY_Idle_Hunting_Info(self, state, mob_vnum, time_left, hunt_duration, max_daily_seconds, total_time_today):
+		if self.interface.wndIdleHunting:
+			self.interface.OnUpdateIdleHuntingState(state, mob_vnum, time_left, hunt_duration, max_daily_seconds, total_time_today)
+	
 	def BINARY_AppendNotifyMessage(self, type):
 		if not type in localeInfo.NOTIFY_MESSAGE:
 			return

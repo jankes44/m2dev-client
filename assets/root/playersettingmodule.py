@@ -1113,9 +1113,7 @@ def __LoadGameShamanEx(race, path):
 	chrmgr.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+21,	"jeungryeok_target.msa")
 	#chrmgr.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+10,	"budong.msa")
 
-	START_INDEX = 0
-	# Up to skill.SKILL_EFFECT_COUNT
-	for i in (1, 2, 3):
+	for i in xrange(skill.SKILL_EFFECT_COUNT):
 		END_STRING = ""
 		if i != 0: END_STRING = "_%d" % (i+1)
 		chrmgr.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+1,	"bipabu" + END_STRING + ".msa")
