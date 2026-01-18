@@ -206,7 +206,7 @@ class IdleHuntingWindow(ui.ScriptWindow):
 		self.UpdateProgressBar()
 	
 	def ShowMobSelection(self):
-		self.stateText.SetText("Select a monster to hunt:")
+		self.stateText.SetText("Select an expedition")
 		for btn in self.mobButtons:
 			btn.Show()
 	
@@ -255,9 +255,9 @@ class IdleHuntingWindow(ui.ScriptWindow):
 		else:
 			self.progressBar.Hide()
 	
-	def OnClickMob(self, mob_vnum):
+	def OnClickMob(self, group_id):
 		# Send start hunting packet
-		net.SendIdleHuntingStart(mob_vnum)
+		net.SendIdleHuntingStart(group_id)
 	
 	def OnClickCancel(self):
 		net.SendIdleHuntingStop()

@@ -295,6 +295,7 @@ TASKBAR_CHAT	Chat Window [Enter]
 TASKBAR_DISABLE	Deactivated
 TASKBAR_DRAGON_SOUL	Dragon Stone Alchemy
 TASKBAR_EXPAND	Expand window
+TASKBAR_IDLE_HUNTING	Idle Hunt [K]
 TASKBAR_INVENTORY	Inventory [I]
 TASKBAR_MESSENGER	Friends [Alt+M]
 TASKBAR_NEXT_QUICKSLOT	Next Fast Access Field [Shift+Number, Alt]

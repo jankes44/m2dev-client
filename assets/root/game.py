@@ -178,11 +178,6 @@ class GameWindow(ui.ScriptWindow):
 		self.testAlignment.SetFeather()
 		self.testAlignment.SetOutline()
 		self.testAlignment.Show()
-	
-		# Initialize Idle Hunting Window (after packs are loaded)
-		if not self.idleHuntingWnd:
-			self.idleHuntingWnd = uiidlehunting.IdleHuntingWindow()
-			self.idleHuntingWnd.Hide()
 
 		# UNKNOWN_UPDATE
 		exchange.InitTrading()
@@ -378,7 +373,7 @@ class GameWindow(ui.ScriptWindow):
 		onPressKeyDict[app.DIK_J]			= lambda : self.__PressJKey()
 		onPressKeyDict[app.DIK_H]			= lambda : self.__PressHKey()
 		onPressKeyDict[app.DIK_B]			= lambda : self.__PressBKey()
-		onPressKeyDict[app.DIK_K]			= lambda : self.ToggleIdleHuntingWindow()
+		onPressKeyDict[app.DIK_K]			= lambda : self.interface.ToggleIdleHuntingWindow()
 		onPressKeyDict[app.DIK_F]			= lambda : self.__PressFKey()
 		onPressKeyDict[app.DIK_TAB]			= lambda : self.__PressTabKey()
 
@@ -1847,9 +1842,9 @@ class GameWindow(ui.ScriptWindow):
 		self.interface.tipBoard.SetTip(message)
 	
 	def BINARY_Idle_Hunting_Info(self, state, mob_vnum, time_left, hunt_duration, max_daily_seconds, total_time_today):
-		if self.idleHuntingWnd:
-			self.idleHuntingWnd.OnUpdateState(state, mob_vnum, time_left, hunt_duration, max_daily_seconds, total_time_today)
-
+		if self.interface.wndIdleHunting:
+			self.interface.OnUpdateIdleHuntingState(state, mob_vnum, time_left, hunt_duration, max_daily_seconds, total_time_today)
+	
 	def BINARY_AppendNotifyMessage(self, type):
 		if not type in localeInfo.NOTIFY_MESSAGE:
 			return
