@@ -291,6 +291,7 @@ SYSTEM_EXIT	Wyjdź z Gry
 SYSTEM_HELP	Pomoc
 SYSTEM_LOGOUT	Wyloguj
 SYSTEM_MALL	Sklep z Przedmiotami
+SYSTEM_MOVE_CHANNEL	Zmień Kanał
 TASKBAR_CHARACTER	Postać [C/V/B/N]
 TASKBAR_CHAT	Okno Chatu [Enter]
 TASKBAR_DISABLE	Dezaktywowano

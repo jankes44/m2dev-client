@@ -658,6 +658,112 @@ class GameWindow(ui.ScriptWindow):
 		self.RefreshEquipment()
 		self.RefreshCharacter()
 		self.RefreshSkill()
+		
+		# Update server info and channel info after warp/channel change
+		self.__UpdateServerInfo()
+		
+		# Update minimap server info display
+		if self.interface and self.interface.wndMiniMap:
+			self.interface.wndMiniMap.RefreshServerInfo()
+	
+	def __UpdateServerInfo(self):
+		"""Update net.SetServerInfo() and channel.inf based on current connection"""
+		try:
+			import serverInfo
+			
+			# Load channel.inf to get current server/channel
+			regionID = 0  # Default region
+			serverID = 1   # Default server
+			channelID = 1  # Default channel
+			
+			try:
+				file = open("channel.inf")
+				lines = file.readlines()
+				if len(lines) > 0:
+					tokens = lines[0].split()
+					if len(tokens) >= 3:
+						serverID = int(tokens[0])
+						channelID = int(tokens[1])
+						regionID = int(tokens[2])
+				file.close()
+			except:
+				# If channel.inf doesn't exist or is invalid, use defaults
+				pass
+			
+			# Get server and channel names from serverInfo
+			try:
+				serverName = serverInfo.REGION_DICT[regionID][serverID]["name"]
+				channelName = serverInfo.REGION_DICT[regionID][serverID]["channel"][channelID]["name"]
+			except:
+				# Fallback if serverInfo doesn't have the data
+				serverName = "Metin2"
+				channelName = "CH%d" % channelID
+			
+			# Update the global server info string
+			serverInfoText = "%s, %s" % (serverName, channelName)
+			net.SetServerInfo(serverInfoText)
+			
+		except:
+			import dbg
+			dbg.TraceError("GameWindow.__UpdateServerInfo failed")
+	
+	def OnChannelUpdate(self, channelID):
+		"""Called by C++ when server sends the channel packet"""
+		try:
+			import serverInfo
+			
+			# Update channel.inf with the new channel
+			regionID = constInfo.REGION_ID
+			serverID = constInfo.SERVER_ID
+			
+			# Try to preserve existing regionID and serverID from channel.inf if not set
+			if regionID == 0 or serverID == 1:
+				try:
+					file = open("channel.inf")
+					lines = file.readlines()
+					if len(lines) > 0:
+						tokens = lines[0].split()
+						if len(tokens) >= 3:
+							serverID = int(tokens[0])
+							regionID = int(tokens[2])
+					file.close()
+				except:
+					pass
+			
+			# Update constInfo
+			constInfo.CHANNEL_ID = channelID
+			constInfo.REGION_ID = regionID
+			constInfo.SERVER_ID = serverID
+			
+			# Write updated channel.inf
+			try:
+				file = open("channel.inf", "w")
+				file.write("%d %d %d" % (serverID, channelID, regionID))
+				file.close()
+			except:
+				import dbg
+				dbg.TraceError("Failed to write channel.inf")
+			
+			# Update server info string
+			try:
+				serverName = serverInfo.REGION_DICT[regionID][serverID]["name"]
+				channelName = serverInfo.REGION_DICT[regionID][serverID]["channel"][channelID]["name"]
+			except:
+				serverName = "Metin2"
+				channelName = "CH%d" % channelID
+			
+			serverInfoText = "%s, %s" % (serverName, channelName)
+			net.SetServerInfo(serverInfoText)
+			
+			# Refresh minimap display
+			if self.interface and self.interface.wndMiniMap:
+				self.interface.wndMiniMap.RefreshServerInfo()
+			
+			import chat
+			
+		except:
+			import dbg
+			dbg.TraceError("GameWindow.OnChannelUpdate failed")
 
 	# Refresh
 	def CheckGameButton(self):
@@ -1962,6 +2068,7 @@ class GameWindow(ui.ScriptWindow):
 			"WarUC"					: self.__GuildWar_UpdateMemberCount,
 			"test_server"			: self.__EnableTestServerFlag,
 			"mall"			: self.__InGameShop_Show,
+			"DebugServerInfo"	: self.__Debug_ServerInfo,
 
 			# WEDDING
 			"lover_login"			: self.__LoginLover,
@@ -2120,6 +2227,11 @@ class GameWindow(ui.ScriptWindow):
 		self.consoleEnable = True
 		app.EnableSpecialCameraMode()
 		ui.EnablePaste(True)
+
+	def __Debug_ServerInfo(self):
+		serverInfo = net.GetServerInfo()
+		chat.AppendChat(chat.CHAT_TYPE_INFO, "Current Server Info: %s" % serverInfo)
+		dbg.TraceError("Current Server Info: %s" % serverInfo)
 
 	## PrivateShop
 	def __PrivateShop_Open(self):
