@@ -705,7 +705,12 @@ TOOLTIP_WARRIOR	Warrior
 TOOLTIP_WEAPON	Weapon	
 TOOLTIP_WRISTLET	Wristlet	
 UI_ACCEPT	Accept	
-UI_CANCEL	Cancel	
+UI_CANCEL	Cancel
+SYSTEM_MOVE_CHANNEL	Change Channel
+MOVE_CHANNEL_TITLE	Change Channel
+CHANNEL_NOTIFY_SAME	You are already on this channel.
+CHANNEL_NOTIFY_FULL	This channel is full.
+CHANNEL_NOTIFY_OFFLINE	This channel is offline.	
 UI_CLOSE	Close	
 UI_DEF_FONT	Tahoma:12
 UI_DEF_FONT_LARGE	Tahoma:14

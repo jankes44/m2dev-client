@@ -1064,6 +1064,11 @@ class LoginWindow(ui.ScriptWindow):
 			serverName = localeInfo.CHANNEL_EMPTY_SERVER
 			channelName = localeInfo.CHANNEL_NORMAL % channelID
 
+		# Set constants for later use
+		constInfo.REGION_ID = regionID
+		constInfo.SERVER_ID = serverID
+		constInfo.CHANNEL_ID = channelID
+
 		self.__SetServerInfo("%s, %s " % (serverName, channelName))
 
 		try:

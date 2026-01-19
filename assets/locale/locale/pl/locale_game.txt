@@ -719,6 +719,11 @@ TOOLTIP_WEAPON	Broń
 TOOLTIP_WRISTLET	Bransoleta
 UI_ACCEPT	Akceptuj
 UI_CANCEL	Anuluj
+SYSTEM_MOVE_CHANNEL	Zmień Kanał
+MOVE_CHANNEL_TITLE	Zmień Kanał
+CHANNEL_NOTIFY_SAME	Jesteś już na tym kanale.
+CHANNEL_NOTIFY_FULL	Ten kanał jest pełny.
+CHANNEL_NOTIFY_OFFLINE	Ten kanał jest offline.
 UI_CLOSE	Zamknij
 UI_DEF_FONT	Tahoma:12
 UI_DEF_FONT_LARGE	Tahoma:14

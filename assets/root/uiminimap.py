@@ -487,7 +487,6 @@ class MiniMap(ui.ScriptWindow):
 		# FPS
 		fps = app.GetUpdateFPS()
 		# multiply by 10
-		fps = fps * 10
 		self.fpsInfo.SetText("%d FPS" % fps)
 
 		if self.tooltipInfo:
@@ -547,6 +546,10 @@ class MiniMap(ui.ScriptWindow):
 		fx = float(x)
 		fy = float(y)
 		miniMap.Render(fx + 4.0, fy + 5.0)
+
+	def RefreshServerInfo(self):
+		if self.serverInfo:
+			self.serverInfo.SetText(net.GetServerInfo())
 
 	def Close(self):
 		self.HideMiniMap()
